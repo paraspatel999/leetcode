@@ -5,6 +5,12 @@ package demo.arrays;
  */
 
 public class FindElementInArray {
+
+    public static void main(String[] args) {
+        FindElementInArray f = new FindElementInArray();
+        int[] a = {4,6,7,8,10,3};
+        System.out.println(f.search(a, 10));
+    }
     public int search(int[] nums, int target) {
         if (nums == null || nums.length == 0) return -1;
 
@@ -12,20 +18,27 @@ public class FindElementInArray {
     }
 
     private int findElement(int[] nums , int i, int j, int target) {
-        if (i < j) {
-            return -1;
-        }
-        int mid = (i + j)/2;
 
-        if (nums[mid] == target) return mid;
+        while ( i <= j) {
 
-        if (nums[mid] >= nums[i]) {
-            if (target >= nums[i]) {
-                return findElement(nums, i, mid - 1, target);
+            int mid = i +  (j - i)/2;
+
+            if (nums[mid] == target) return mid;
+
+            if (nums[mid] >= nums[i]) {
+                if (target >= nums[i] && target <= nums[mid]) {
+                    j = mid - 1;
+                } else {
+                    i = mid + 1;
+                }
+            } else {
+                if (target <= nums[j] && target > nums[mid] ) {
+                    i = mid + 1;
+                } else {
+                    j = mid - 1;
+                }
             }
-            return findElement(nums, mid + 1, j, target);
         }
-        if (nums[i] <= target || target < nums[mid]) return findElement(nums, i, mid -1, target);
-        return findElement(nums, mid + 1, j, target);
+       return -1;
     }
 }
